@@ -5,16 +5,144 @@ date: "5/16/2019"
 output: html_document
 ---
 
-
-1. 
-
 ```{r}
 
 library(tidyverse)
+library(stargazer)
 
 df1 <- read_csv("HW3Data.csv")
+
+```
+
+
+1. Create a linear probability model that predicts a respondent’s probability of voting ‘yes’ on the
+ballot based on their age, income, NEP score, the risk reduction offered by the program, and the
+cost of the program to that respondent. Show the model and interpret the regression
+coefficients.
+
+Data columns are: (1) “risk”: level of risk reduction, (2) “bid”: annual payment for the household, (3) “vote”: 1 is
+yes, 0 is no, (4)”NEP” : measure of environmental concern (feel free to consult the WhaleStrikes Group Project report for more information), (5) ”income”: categorical variable for income level, (6)”age”: categorical variable for
+age.
+
+```{r, results="asis"}
+lm1 <- lm(vote ~ age + income + NEP + risk + bid, data=df1)
+
+lm1
+
+stargazer(lm1, type="html",
+          title = "models")
+
+# Vote = 0.1196977 + 0.0099816*agetofifty - 0.0201190*agetoforty - 0.0162261*agetosixty + 0.0204401*agetothirty + 0.0088282*incomeone_percent + 0.0027386*incomepoor + 0.0074891*incomerich + 0.0467922*incomevery_rich + 0.0158639*NEP + 0.0007445*risk - 0.0010699*bid 
+
+
+
+
+# Over sixty and middle are the reference groups.
+
+summary(lm1)
+
+```
+
+
+2. Based on this regression, what can you say about the value of a single prevented whale death?
+(Hint: Think about how risk reduction for all whales translates into the number of whale deaths
+avoided)
+
+```{r}
+
+# We used our first model and solved for bid, getting the following equation:
+# bid = (0.1196977 + 0.0099816*agetofifty - 0.0201190*agetoforty - 0.0162261*agetosixty + 0.0204401*agetothirty + 0.0088282*incomeone_percent + 0.0027386*incomepoor + 0.0074891*incomerich + 0.0467922*incomevery_rich + 0.0158639*NEP + 0.0007445*risk - Vote)/0.0010699
+
+# We created a function to calculate for a specific indidivual, and replaced the values in the function to obtain "bid" for this individual given a 20% risk reduction versus a 24% reduction (4% of risk reduction means an increase of 1 whale saved).
+
+bidfunc00 <- function(bid){(0.1196977 + 0.0099816*agetofifty - 0.0201190*agetoforty - 0.0162261*agetosixty + 0.0204401*agetothirty + 0.0088282*incomeone_percent + 0.0027386*incomepoor + 0.0074891*incomerich + 0.0467922*incomevery_rich + 0.0158639*NEP + 0.0007445*risk - vote)/0.0010699}
+
+# For individual #1
+
+bidfunc01 <- function(bid){(0.1196977 + 0.0099816*0 - 0.0201190*0 - 0.0162261*0 + 0.0204401*1 + 0.0088282*0 + 0.0027386*0 + 0.0074891*0 + 0.0467922*1 + 0.0158639*15 + 0.0007445*20 - 0)/0.0010699}
+
+bidfunc02 <- function(bid){(0.1196977 + 0.0099816*0 - 0.0201190*0 - 0.0162261*0 + 0.0204401*1 + 0.0088282*0 + 0.0027386*0 + 0.0074891*0 + 0.0467922*1 + 0.0158639*15 + 0.0007445*24 - 0)/0.0010699}
+
+# From risk 20 to 24, bid changes from 411.0464 to 413.8298, which means tthe value of a single prevented whale death is around 2.783438.
+
+
+
+# lm2 <- lm(bid ~ age + income + NEP + risk + vote, data=df1)
+# 
+# summary(lm2)
+# 
+# # bid = 70.25203 - 4.38308*agetofifty - 5.28253*agetoforty - 8.43575*agetosixty - 1.83242*agetothirty - 1.31112*incomeone_percent + 1.04449*incomepoor + 0.50045*incomerich - 1.14663*incomevery_rich - 0.04160*NEP - 0.04014*risk - 5.02885*vote
+# 
+# bidfunc <- function(bid){70.25203 - 4.38308*agetofifty - 5.28253*agetoforty - 8.43575*agetosixty - 1.83242*agetothirty - 1.31112*incomeone_percent + 1.04449*incomepoor + 0.50045*incomerich - 1.14663*incomevery_rich - 0.08160*NEP - 0.04014*risk - 5.02885*vote}
+# 
+# # For individual 1:
+# 
+# bidfunc1 <- function(bid){70.25203 - 4.38308*0 - 5.28253*0 - 8.43575*0 - 1.83242*1 - 1.31112*0 + 1.04449*0 + 0.50045*0 - 1.14663*1 - 0.04160*15 - 0.04014*20 - 5.02885*0}
+# 
+# bidfunc2 <- function(bid){70.25203 - 4.38308*0 - 5.28253*0 - 8.43575*0 - 1.83242*1 - 1.31112*0 + 1.04449*0 + 0.50045*0 - 1.14663*1 - 0.04160*15 - 0.04014*24 - 5.02885*0}
+# 
+# # For individual 2:
+# 
+# bidfunc3 <- function(bid){70.25203 - 4.38308*agetofifty - 5.28253*agetoforty - 8.43575*agetosixty - 1.83242*agetothirty - 1.31112*incomeone_percent + 1.04449*incomepoor + 0.50045*incomerich - 1.14663*incomevery_rich - 0.08160*NEP - 0.04014*risk - 5.02885*vote}
+# 
+# 
+# df2 <- df1 %>% 
+#   mutate(whales = risk/4)
+# 
+# lm3 <- lm(bid ~ age + income + NEP + risk + vote + whales, data=df2)
+# 
+# lm3
 
 
 
 ```
+
+
+3. Pick three arbitrary respondents. For each of those respondents, estimate their WTP for a VSR
+program offering 60% risk reduction.
+
+```{r}
+
+# This one is model 1 rearranged for bid 
+
+bidfunc03 <- function(bid){(0.1196977 + 0.0099816*agetofifty - 0.0201190*agetoforty - 0.0162261*agetosixty + 0.0204401*agetothirty + 0.0088282*incomeone_percent + 0.0027386*incomepoor + 0.0074891*incomerich + 0.0467922*incomevery_rich + 0.0158639*NEP + 0.0007445*risk - vote)/0.0010699}
+
+
+
+# This one is a new model calculated for bid
+
+bidfunc <- function(bid){70.25203 - 4.38308*agetofifty - 5.28253*agetoforty - 8.43575*agetosixty - 1.83242*agetothirty - 1.31112*incomeone_percent + 1.04449*incomepoor + 0.50045*incomerich - 1.14663*incomevery_rich - 0.08160*NEP - 0.04014*risk - 5.02885*vote}
+
+```
+
+
+
+4. Now repeat this process and estimate the mean WTP for a VSR program offering 60% risk
+reduction among Santa Barbara County households.
+
+
+```{r}
+
+```
+
+
+
+5. If there are 150,000 households in Santa Barbara County, estimate the total benefit of a VSR
+program to these households.
+
+
+```{r}
+
+```
+
+
+6. Based only on these benefits, do the benefits of the VSR program outweigh the costs?
+
+```{r}
+
+```
+
+
+
+
 
