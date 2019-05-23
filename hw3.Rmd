@@ -103,15 +103,12 @@ program offering 60% risk reduction.
 
 ```{r}
 
-# This one is model 1 rearranged for bid 
+# This one is model 1 rearranged for bid
 
 bidfunc03 <- function(bid){(0.1196977 + 0.0099816*agetofifty - 0.0201190*agetoforty - 0.0162261*agetosixty + 0.0204401*agetothirty + 0.0088282*incomeone_percent + 0.0027386*incomepoor + 0.0074891*incomerich + 0.0467922*incomevery_rich + 0.0158639*NEP + 0.0007445*risk - vote)/0.0010699}
 
 
 
-# This one is a new model calculated for bid
-
-bidfunc <- function(bid){70.25203 - 4.38308*agetofifty - 5.28253*agetoforty - 8.43575*agetosixty - 1.83242*agetothirty - 1.31112*incomeone_percent + 1.04449*incomepoor + 0.50045*incomerich - 1.14663*incomevery_rich - 0.08160*NEP - 0.04014*risk - 5.02885*vote}
 
 ```
 
@@ -123,6 +120,14 @@ reduction among Santa Barbara County households.
 
 ```{r}
 
+bidfunc04 <- function(bid){(0.1196977 + 0.0099816*agetofifty - 0.0201190*agetoforty - 0.0162261*agetosixty + 0.0204401*agetothirty + 0.0088282*incomeone_percent + 0.0027386*incomepoor + 0.0074891*incomerich + 0.0467922*incomevery_rich + 0.0158639*NEP + 0.0007445*risk - vote)/0.0010699}
+
+
+# mode of age
+# mode of income
+# mean of NEP
+# vote 0.5
+
 ```
 
 
@@ -133,12 +138,16 @@ program to these households.
 
 ```{r}
 
+
+
 ```
 
 
 6. Based only on these benefits, do the benefits of the VSR program outweigh the costs?
 
 ```{r}
+
+
 
 ```
 
