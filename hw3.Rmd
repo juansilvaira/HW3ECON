@@ -107,7 +107,24 @@ program offering 60% risk reduction.
 
 bidfunc03 <- function(bid){(0.1196977 + 0.0099816*agetofifty - 0.0201190*agetoforty - 0.0162261*agetosixty + 0.0204401*agetothirty + 0.0088282*incomeone_percent + 0.0027386*incomepoor + 0.0074891*incomerich + 0.0467922*incomevery_rich + 0.0158639*NEP + 0.0007445*risk - vote)/0.0010699}
 
+# Random individual 1: vote = 0.5, NEP=50, Risk=60%, income=middle, age=tothirty
 
+bidfunc03_1 <- function(bid){(0.1196977 + 0.0204401*1 + 0.0158639*50 + 0.0007445*60 - 0.5)/0.0010699}
+
+# BID individual 1 = 446.7733
+
+# Random individual 2: vote = 0.5, NEP=46, Risk=60%, income=POOR, age=toforty
+
+bidfunc03_2 <- function(bid){(0.1196977 - 0.0201190*1 + 0.0027386*1 + 0.0158639*46 + 0.0007445*60 - 0.5)/0.0010699}
+
+# BID individual 2 = 352.1139
+
+# Random individual 3: nep 32, poor, tothirty
+
+bidfunc03_3 <- function(bid){(0.1196977 +  0.0204401*1 + 0.0027386*1 + 0.0158639*32 + 0.0007445*60 - 0.5)/0.0010699}
+
+
+# BID individual 3 = 182.4387
 
 
 ```
@@ -153,6 +170,34 @@ program to these households.
 
 
 ```
+
+
+When a container ship reduces its speed, it not only reduces the risk of colliding with a whale but also
+emits less carbon per distance traveled. For this reason, the WhaleStrikes Group Project recommended
+enrolling container ships in voluntary carbon trading markets to mitigate fatal whale strikes. Assume
+that for any ship transiting the Santa Barbara Channel, a speed reduction (that results in a 60% risk
+reduction) will cost the shipper $1,000, but will result in 20 fewer tons of CO2 emitted per transit.
+
+7. Suppose the price of a carbon credit is $Z per ton, at what price Z* will the shipping industry
+decide to adopt the VSR for purely self-interested reasons? (Note: if ships voluntarily reduce
+speed, then the $7 million cost (noted above) of implementing the VSR would be avoided)
+
+```{r}
+
+
+
+```
+
+
+8. Now suppose the carbon credit price is exactly Z*, so all ships voluntarily reduce speed to
+achieve the 60% risk reduction. Approximately how many whales would be saved by this? What
+would be the social value of allowing ships to enter the carbon trading market?
+
+
+```{r}
+
+```
+
 
 
 
