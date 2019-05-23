@@ -123,9 +123,12 @@ reduction among Santa Barbara County households.
 bidfunc04 <- function(bid){(0.1196977 + 0.0099816*agetofifty - 0.0201190*agetoforty - 0.0162261*agetosixty + 0.0204401*agetothirty + 0.0088282*incomeone_percent + 0.0027386*incomepoor + 0.0074891*incomerich + 0.0467922*incomevery_rich + 0.0158639*NEP + 0.0007445*risk - vote)/0.0010699}
 
 
-# mode of age
-# mode of income
+# median of age
+median(df1$age)
+# mode of income 
+median(df1$income)
 # mean of NEP
+mean(df1$NEP) # 38.366
 # vote 0.5
 
 ```
